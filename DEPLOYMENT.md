@@ -192,11 +192,9 @@ PORT=3000
 使用 PM2 启动应用：
 
 ```bash
-pm install
-pm run start
-# 或者使用 PM2
-pm install -g pm2
-pm run start:pm2
+npm install
+npm install -g pm2
+pm2 start index.js --name "image-host"
 ```
 
 #### 步骤 7：获取部署 URL

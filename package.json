@@ -1,18 +1,37 @@
 {
-  "name": "imagehosting",
-  "version": "1.0.0",
-  "description": "",
+  "name": "github-image-host",
+  "version": "1.1.0",
+  "description": "自动化 GitHub 图片托管服务，通过 Webhook 自动生成图片直链",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "jest --forceExit --detectOpenHandles"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "github",
+    "image-hosting",
+    "webhook",
+    "cdn",
+    "raw-url"
+  ],
+  "author": "Swcmb",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Swcmb/GitHub-Image-Host.git"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "@octokit/rest": "^22.0.1",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "multer": "^2.1.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.1.0"
   }
 }
