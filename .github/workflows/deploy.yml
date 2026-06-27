@@ -1,49 +1,30 @@
-name: Deploy Image Hosting Server
+name: Deploy to Vercel
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-    
-    - name: Install dependencies
-      run: npm install
-    
-    - name: Run tests (if any)
-      run: npm test
-    
-    - name: Deploy to Vercel
-      uses: amondnet/vercel-action@v25
-      with:
-        vercel-token: ${{ secrets.VERCEL_TOKEN }}
-        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-        working-directory: ./
+      - uses: actions/checkout@v4
 
-    # 或者部署到 Heroku
-    # - name: Deploy to Heroku
-    #   uses: akhileshns/heroku-deploy@v3.13.15
-    #   with:
-    #     heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-    #     heroku_app_name: your-heroku-app-name
-    #     heroku_email: your-email@example.com
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
 
-    # 或者部署到 AWS EC2
-    # - name: Deploy to EC2
-    #   run: |
-    #     ssh -i ${{ secrets.EC2_KEY }} ubuntu@${{ secrets.EC2_IP }} "
-    #       cd /home/ubuntu/imageHosting &&
-    #       git pull &&
-    #       npm install &&
-    #       pm2 restart index.js
-    #     "
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}

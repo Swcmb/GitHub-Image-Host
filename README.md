@@ -116,11 +116,41 @@ POST /webhook
 
 ## 部署
 
-支持 **Vercel**（推荐）、**Heroku** 和 **AWS EC2**。详细步骤见 [DEPLOYMENT.md](DEPLOYMENT.md)。
+### 1. 准备工作
+
+- 生成 GitHub 个人访问令牌（需 `repo` 权限）：**Settings → Developer settings → Personal access tokens**
+- 生成 Webhook 密钥：`openssl rand -base64 32`
+
+### 2. 选择部署平台
+
+**Vercel（推荐）**
+1. 登录 [vercel.com](https://vercel.com)，导入 `Swcmb/GitHub-Image-Host` 仓库
+2. 在 Environment Variables 中添加 `GITHUB_TOKEN`、`GITHUB_WEBHOOK_SECRET`
+3. 点击 Deploy
+
+**AWS EC2 / 自有服务器**
+```bash
+git clone https://github.com/Swcmb/GitHub-Image-Host.git
+cd GitHub-Image-Host
+npm install
+cp .env.example .env  # 编辑填写配置
+pm2 start index.js --name "image-host"
+```
+
+### 3. 配置 GitHub Webhook
+
+进入仓库 **Settings → Webhooks → Add webhook**：
+
+| 配置项 | 值 |
+|:---|:---|
+| Payload URL | `https://你的域名/webhook` |
+| Content type | `application/json` |
+| Secret | 与 `.env` 中 `GITHUB_WEBHOOK_SECRET` 一致 |
+| Events | **Just the push event** |
 
 ### GitHub Actions 自动部署
 
-项目已配置 `.github/workflows/deploy.yml`，推送代码到 `main` 分支时自动触发部署。
+项目已配置 `.github/workflows/deploy.yml`，推送代码到 `main` 分支时自动触发 Vercel 部署。需在仓库 Secrets 中配置 `VERCEL_TOKEN`、`VERCEL_ORG_ID`、`VERCEL_PROJECT_ID`。
 
 ## 生成的链接格式
 
